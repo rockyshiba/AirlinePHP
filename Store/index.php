@@ -68,7 +68,7 @@ if(isset($_POST['update_cart']))
     foreach($quantities as $id => $stock)
     {
         $_SESSION['shopping_cart'][$id]['stock'] = $stock;
-        echo "ID: $id - Quantity: $stock<br>";
+        echo "ID: $id - Stock: $stock<br>";
     }
 }
 ?>
@@ -118,7 +118,7 @@ if(isset($_POST['update_cart']))
 
             "<p>
             <form action='./index.php?view_product=$idee' method='post'>
-            <select name='quantity'>
+            <select name='stock'>
                 <option value='1'>1</option>
                 <option value='2'>2</option>
                 <option value='3'>3</option>
@@ -168,12 +168,12 @@ if(isset($_POST['update_cart']))
                         <td><a href='./index.php?view_product=$id' >" . $product_sing['name'] . "</a></td>
                         <td>" . $product_sing['price'] . "</td>
                         <td>" . $product_sing['category'] . "</td>
-                        <td><input type='text' name='quantity[$product_id]' value='" . $p['quantity'] . "'/>
+                        <td><input type='text' name='stock[$product_id]' value='" . $p['stock'] . "'/>
                         </td>
                          <td><a href='./index.php?remove=$id'>Remove</a></td>
                      </tr>";
 
-                //echo $products[$product_id]['name'] . " | Quantitiy: " . $product['quantity'] . "<br>";
+                //echo $products[$product_id]['name'] . " | Quantitiy: " . $product['stock'] . "<br>";
             }
             echo "</table>";
             echo "<input type='submit' name='update_cart' value='Update cart'/>";
@@ -200,22 +200,22 @@ if(isset($_POST['update_cart']))
     {
         echo "<form action='./index.php?checkout=1' method='post'>";
         echo "<table>";
-        echo "<tr><th>Name</th><th>Item Price</th><th>Quantity</th><th>Cost</th></tr>";
+        echo "<tr><th>Name</th><th>Item Price</th><th>Stock</th><th>Quantity</th></tr>";
 
         $total_price = 0;
         foreach($_SESSION['shopping_cart'] as $id => $product)
         {
             $product_id = $product['product_id'];
-            $total_price += ($products[$product_id]['price'] * $product['quantity']);
+            $total_price += ($products[$product_id]['price'] * $product['stock']);
             echo "<tr>
                 <td><a href='./index.php?view_product=$id' >" . $products[$product_id]['name'] . "</a></td>
                 <td>" . $products[$product_id]['price'] . "</td>
                 <td>" . $products[$product_id]['category'] . "</td>
-                <td>$" . ($products[$product_id]['price'] * $product['quantity'])  . "</td>
+                <td>$" . ($products[$product_id]['price'] * $product['stock'])  . "</td>
                 <td><a href='#'>Remove</a></td>
             </tr>";
 
-            //echo $products[$product_id]['name'] . " | Quantitiy: " . $product['quantity'] . "<br>";
+            //echo $products[$product_id]['name'] . " | Quantitiy: " . $product['stock'] . "<br>";
         }
             echo "</table>";
         echo "</form>";
