@@ -1,6 +1,10 @@
 <?php
 session_start();
 
+require_once './Models/database.php';
+require_once './Models/Products.php';
+
+$product = new Product();
 //$products[1] = array (
 //    'name' => 'Pillow',
 //    'price' => 10.00,
@@ -39,6 +43,7 @@ if(isset($_GET['empty_cart']))
 //add products to cart
 if(isset($_POST['add_to_cart']))
 {
+
     $product_id = $_POST['product_id'];
 
     //item exists in cart
@@ -50,7 +55,7 @@ if(isset($_POST['add_to_cart']))
     {
 
         $_SESSION['shopping_cart'][$product_id]['product_id'] = $_POST['product_id'];
-        $_SESSION['shopping_cart'][$product_id]['quantity'] = $_POST['quantity'];
+        $_SESSION['shopping_cart'][$product_id]['stock'] = $_POST['stock'];
 
         echo "Item added to cart!";
     }
@@ -59,11 +64,11 @@ if(isset($_POST['add_to_cart']))
 //update cart
 if(isset($_POST['update_cart']))
 {
-    $quantities = $_POST['quantity'];
-    foreach($quantities as $id => $quantity)
+    $quantities = $_POST['stock'];
+    foreach($quantities as $id => $stock)
     {
-        $_SESSION['shopping_cart'][$id]['quantity'] = $quantity;
-        echo "ID: $id - Quantity: $quantity<br>";
+        $_SESSION['shopping_cart'][$id]['stock'] = $stock;
+        echo "ID: $id - Quantity: $stock<br>";
     }
 }
 ?>
@@ -97,15 +102,19 @@ if(isset($_POST['update_cart']))
         <!--If user clicks a product for detailed information, page loads with just that product information-->
 <?php if(isset($_GET['view_product'])) : ?>
     <?php
+
         $idee = $_GET['view_product'];
+        $product_sing = $product->getProduct($idee);
+
         //breadcrumbs
-        echo "<span><a href='./index.php'>Online Store</a> &gt; <a href='#'>" . $products[$idee]['category'] . "</a></span>" . "<br>";
+        echo "<span><a href='./index.php'>Online Store</a> &gt; <a href='./index.php?category=". $product_sing['category'] ."'>" . $product_sing['category'] . "</a></span>" . "<br>";
 
         //product details
-        echo "<b>Name: </b>" . $products[$idee]['name'] . "<br>" .
-            "<b>Price: </b>" . $products[$idee]['price'] . "<br>" .
-            "<b>Category: </b>" . $products[$idee]['category'] . "<br>" .
-            "<b>Description: </b>" . $products[$idee]['description'] . "<br>" .
+        echo "<b>Name: </b>" . $product_sing['name'] . "<br>" .
+            "<b>Price: </b>" . $product_sing['price'] . "<br>" .
+            "<b>Category: </b>" . $product_sing['category'] . "<br>" .
+            "<b>Description: </b>" . $product_sing['description'] . "<br>" .
+            "<b>Items left in stock: </b>" . $product_sing['stock'] . "<br>" .
 
             "<p>
             <form action='./index.php?view_product=$idee' method='post'>
@@ -123,6 +132,18 @@ if(isset($_POST['update_cart']))
 <?php elseif(isset($_GET['category'])) : ?>
     <h3>Category: </h3>
 
+    <?php
+    $products = $product->getProdByCat($_GET['category']);
+    //var_dump($products);
+    foreach($products as $p)
+    {
+        echo "<a href='./index.php?view_product=" . $p['id'] . "' >". $p['name'] . "</a><br>" .
+            "<b>Price: </b>" . $p['price'] . "<br>" .
+            "<b>Category: </b>" . $p['category'] . "<br>" .
+            "<b>Description: </b>" . $p['description'] . "<hr>";
+    }
+    ?>
+
 <?php elseif(isset($_GET['view_cart'])) : ?>
     <h3>Your cart</h3>
     <?php
@@ -139,14 +160,15 @@ if(isset($_POST['update_cart']))
             echo "<form action='./index.php?view_cart=1' method='post'>";
             echo "<table>";
             echo "<tr><th>Name</th><th>Price</th><th>Category</th><th>Quantity</th></tr>";
-            foreach($_SESSION['shopping_cart'] as $id => $product)
+            foreach($_SESSION['shopping_cart'] as $id => $p)
             {
-                $product_id = $product['product_id'];
+                $product_id = $p['product_id'];
+                $product_sing = $product->getProduct($product_id);
                 echo "<tr>
-                        <td><a href='./index.php?view_product=$id' >" . $products[$product_id]['name'] . "</a></td>
-                        <td>" . $products[$product_id]['price'] . "</td>
-                        <td>" . $products[$product_id]['category'] . "</td>
-                        <td><input type='text' name='quantity[$product_id]' value='" . $product['quantity'] . "'/>
+                        <td><a href='./index.php?view_product=$id' >" . $product_sing['name'] . "</a></td>
+                        <td>" . $product_sing['price'] . "</td>
+                        <td>" . $product_sing['category'] . "</td>
+                        <td><input type='text' name='quantity[$product_id]' value='" . $p['quantity'] . "'/>
                         </td>
                          <td><a href='./index.php?remove=$id'>Remove</a></td>
                      </tr>";
@@ -202,13 +224,17 @@ if(isset($_POST['update_cart']))
     ?>
 <?php else : ?>
 <?php
+    //Storefront PRINT ALL PRODUCTS
+    $products = $product->getProducts();
+
     echo "<p><a href='./index.php'>Online Store</a></p>";
-    foreach($products as $id => $product)
+
+    foreach($products as $p)
     {
-        echo "<b>Name: </b><a href='./index.php?view_product=$id'>" . $product['name'] . "</a><br>" .
-            "<b>Price: </b>" . $product['price'] . "<br>" .
-            "<b>Category: </b>" . $product['category']. "<br>" .
-            "<b>Description</b>" . $product['description'] . "<br><br>";
+        echo "<a href='./index.php?view_product=" . $p['id'] . "' >". $p['name'] . "</a><br>" .
+            "<b>Price: </b>" . $p['price'] . "<br>" .
+            "<b>Category: </b>" . $p['category'] . "<br>" .
+            "<b>Description: </b>" . $p['description'] . "<hr>";
     }
 ?>
     </main>

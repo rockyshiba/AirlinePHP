@@ -2,7 +2,7 @@
 
 class Database
 {
-    public static $dsn = 'mysql:host=localhost;dbname=phpairline';
+    public static $dsn = 'mysql:host=localhost;dbname=airlinephp';
     public static $username = 'root';
     public static $password = '';
 
