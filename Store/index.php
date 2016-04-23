@@ -1,26 +1,26 @@
 <?php
 session_start();
 
-$products[1] = array (
-    'name' => 'Pillow',
-    'price' => 10.00,
-    'category' => 'comfort',
-    'description' => 'A nice travel pillow for your long travels'
-    );
-
-$products[2] = array (
-    'name' => 'Blanket',
-    'price' => 15.00,
-    'category' => 'comfort',
-    'description' => 'A nice travel blanket for your long travels'
-    );
-
-$products[3] = array (
-    'name' => 'Slippers',
-    'price' => 5.00,
-    'category' => 'footware',
-    'description' => 'A pair of slippers'
-    );
+//$products[1] = array (
+//    'name' => 'Pillow',
+//    'price' => 10.00,
+//    'category' => 'comfort',
+//    'description' => 'A nice travel pillow for your long travels'
+//    );
+//
+//$products[2] = array (
+//    'name' => 'Blanket',
+//    'price' => 15.00,
+//    'category' => 'comfort',
+//    'description' => 'A nice travel blanket for your long travels'
+//    );
+//
+//$products[3] = array (
+//    'name' => 'Slippers',
+//    'price' => 5.00,
+//    'category' => 'footware',
+//    'description' => 'A pair of slippers'
+//    );
 
 
 //set up cart
