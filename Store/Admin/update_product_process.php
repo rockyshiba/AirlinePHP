@@ -3,17 +3,12 @@
         var_dump($_POST);
         $_SESSION["not_updated"] = "Updated 1 row";
         $missing = [];
-        $required = ['name',
-        'price',
-        'stock',
-        'serial_num',
-        'description',
-        'category',];
-
+        $required = ['id', 'name', 'price', 'stock', 'serial_num', 'description', 'category', 'submit'];
+        $post_variables = [];
         foreach($_POST as $key => $value)
         {
             $value = is_array($value) ? $value : trim($value);
-            if(empty($value) && in_array($key, $required))
+            if(strlen($value) == 0  && in_array($key, $required))
             {
                 $missing[] = $key;
                 $$key = '';
@@ -22,25 +17,33 @@
             {
                 $$key = $value;
             }
+            $post_variables[] = $$key;
         }
+        var_dump($post_variables);
+//        $name = $_POST['name'];
+//        $price = $_POST['price'];
+//        $stock = $_POST['stock'];
+//        $serial_num = $_POST['serial_num'];
+//        $description = $_POST['description'];
+//        $category = $_POST['category'];
 
-    //HANDLE ERRORS
-//        $errors = [];
+        //HANDLE ERRORS
+//        $errors = false;
 //        if(is_numeric($price) == false)
 //        {
-//            $errors[] = $price;
-//        }
-//
-//        if(is_int($stock) == false)
-//        {
-//            $errors[] = $stock;
+//            $errors = true;
+//            echo $errors . "<br>";
 //        }
 
-        if(empty($missing) && empty($errors))
+        if(empty($missing) && is_numeric($price))
         {
             echo "ok";
             require_once "../Models/database.php";
             require_once "../Models/Products.php";
+
+            $product = new Product();
+            $product->updateProd($id, $name, $price, $stock, $serial_num, $description, $category);
+            header("location: ./index.php?view_products=1");
         }
         else
         {

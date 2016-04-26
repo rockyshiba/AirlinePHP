@@ -6,7 +6,6 @@
         $prod_id = $_POST['prod_id'];
         $product = new Product();
         $p = $product->getProduct($prod_id);
-
     ?>
     
 <!DOCTYPE html>
