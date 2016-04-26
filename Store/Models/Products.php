@@ -44,4 +44,16 @@ class Product
         return $prods_by_cat;
     }
 
+    //POST
+    public function updateProd($id, $name, $price, $stock, $serial_num, $description, $category)
+    {
+        $db = Database::getDB();
+        $sql = "UPDATE products
+                SET name = '$name', price = '$price', stock = '$stock', serial_num = '$serial_num', description = '$description', category = '$category'
+                WHERE id = '$id'";
+        $row_count = $db->exec($sql);
+        
+        return $row_count;
+    }
+
 }

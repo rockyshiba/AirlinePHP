@@ -22,7 +22,6 @@ $customers = $statement->fetchAll();
 <main>
     <div class="page-wrapper">
         <table class="parking_table">
-            <?php foreach ($customers as $customer) : ?>
                 <tr class="parking_table">
                     <th>Id</th>
                     <th>First name</th>
@@ -34,6 +33,7 @@ $customers = $statement->fetchAll();
                     <th>Departure date</th>
                     <th>Return date</th>
                 </tr>
+            <?php foreach ($customers as $customer) : ?>
                 <tr class="parking_table">
                     <td><?php echo $customer['id']; ?></td>
                     <td><?php echo $customer['first_name']; ?></td>
