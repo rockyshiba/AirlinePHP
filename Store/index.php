@@ -114,20 +114,27 @@ if(isset($_POST['update_cart']))
             "<b>Price: </b>" . $product_sing['price'] . "<br>" .
             "<b>Category: </b>" . $product_sing['category'] . "<br>" .
             "<b>Description: </b>" . $product_sing['description'] . "<br>" .
-            "<b>Items left in stock: </b>" . $product_sing['stock'] . "<br>" .
+            "<b>Items left in stock: </b>" . $product_sing['stock'] . "<br>";
+            if($product_sing['stock'] == 0)
+            {
+                echo "<p>Out of stock. <a href='./index.php'>Click here to go back to the store</a></p>";
+            }
+            else
+            {
+                echo "<p>
+                        <form action='./index.php?view_product=$idee' method='post'>
+                        <select name='stock'>
+                            <option value='1'>1</option>
+                            <option value='2'>2</option>
+                            <option value='3'>3</option>
+                        </select>
+                        <input type='hidden' name='product_id' value='$idee'/>
+                        <input type='submit' name='add_to_cart' value='Add to cart'/>
+                        </form>
+                    </p>";
+            }
 
-            "<p>
-            <form action='./index.php?view_product=$idee' method='post'>
-            <select name='stock'>
-                <option value='1'>1</option>
-                <option value='2'>2</option>
-                <option value='3'>3</option>
-            </select>
-            <input type='hidden' name='product_id' value='$idee'/>
-            <input type='submit' name='add_to_cart' value='Add to cart'/>
-            </form>
-            </p>"
-            ;
+
     ?>
 <?php elseif(isset($_GET['category'])) : ?>
     <h3>Category: </h3>

@@ -12,7 +12,8 @@ class Product
         $products_tolist = $result->fetchAll();
         return $products_tolist;
     }
-
+    
+    
     //GET
     public function getProduct($x)
     {
