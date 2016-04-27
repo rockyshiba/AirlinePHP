@@ -55,5 +55,15 @@ class Product
         
         return $row_count;
     }
+    
+    //POST
+    public function deleteProd($id)
+    {
+        $db = Database::getDB();
+        $sql = "DELETE FROM products WHERE id = '$id'";
+        $row_count = $db->exec($sql);
+        
+        return $row_count;
+    }
 
 }
