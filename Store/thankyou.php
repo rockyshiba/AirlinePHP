@@ -3,9 +3,11 @@
     <?php
         session_start();
         var_dump($_SESSION);
+        require_once './Models/database.php';
         require_once './Models/Customers.php';
         $customer = new Customer();
-        $sing_customer = $customer->getCustomerId($_SESSION['new_c_id']);
+        $sing_customer = $customer->getCustomer($_SESSION['new_c_id']);
+        var_dump($sing_customer);
     ?>
 <!DOCTYPE html>
 <html>
@@ -23,16 +25,16 @@
     <header></header>
     <main>
         <h2>Your order details</h2>
-        <p><?php echo "Name: " . $sing_customer['name'] . " " . $sing_customer['surname']; ?></p>
-        <p><?php echo "Items purchased: " . $_SESSION['items']; ?></p>
-        <p><?php echo "Amount charged on credit card: " . $_SESSION['total']; ?></p>
-        <p><?php echo "Shipping method: " . $_SESSION['shipping']; ?></p>
-        <p>Customer address:</p>
+        <p><?php echo "<b>Name:</b> " . $sing_customer['name'] . " " . $sing_customer['surname']; ?></p>
+        <p><?php echo "<b>Items purchased:</b> " . $_SESSION['items']; ?></p>
+        <p><?php echo "<b>Amount charged on credit card: </b>" . $_SESSION['total']; ?></p>
+        <p><?php echo "<b>Shipping method: </b>" . $_SESSION['shipping']; ?></p>
+        <p><b>Customer address:<b/></p>
         <p><?php echo $sing_customer['address']; ?></p>
         <p><?php echo $sing_customer['city']; ?></p>
         <p><?php echo $sing_customer['province']; ?></p>
         <p><?php echo $sing_customer['postal_code']; ?></p>
-        <p><?php echo "Order placed: " . $_SESSION['order_date']; ?></p>
+        <p><?php echo "<b>Order placed:<b/> " . $_SESSION['order_date']; ?></p>
     </main>
     <footer></footer>
     </body>

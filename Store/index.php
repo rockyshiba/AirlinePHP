@@ -231,7 +231,7 @@ if(isset($_POST['update_cart']))
                 $_SESSION['shipping'] = $shipping;
                 $_SESSION['items'] = $items;
                 $_SESSION['order_date'] = $order_date;
-                //header('location: thankyou.php?ty=1');
+                header('location: thankyou.php?ty=1');
             }
 
         }
