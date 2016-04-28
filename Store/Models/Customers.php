@@ -6,7 +6,7 @@ class Customer
     public function addCustomer($id, $name, $surname, $address, $city, $province, $postal_code, $email, $credit_card)
     {
         $db = Database::getDB();
-        $sql = "INSERT INTO `airlinephp`.`customer` (`id`, `name`, `surname`, `address`, `city`, `province`, `postal_code`, 'email', 'credit_card') 
+        $sql = "INSERT INTO `airlinephp`.`customers` (`id`, `name`, `surname`, `address`, `city`, `province`, `postal_code`, 'email', 'credit_card') 
                 VALUES (NULL, '$name', '$surname', '$address', '$city', '$province', '$postal_code', '$email', '$credit_card')";
         $result = $db->exec($sql);
 
@@ -55,7 +55,7 @@ class Customer
     public function deleteCustomer($id)
     {
         $db = Database::getDB();
-        $sql = "DELETE FROM customer WHERE id = '$id'";
+        $sql = "DELETE FROM customers WHERE id = '$id'";
         $row_count = $db->exec($sql);
 
         return $row_count;

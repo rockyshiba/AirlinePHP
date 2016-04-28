@@ -5,7 +5,7 @@ class Order
     public function addOrder($id, $c_id, $subtotal, $total, $shipping, $items, $shipped, $order_date)
     {
         $db = Database::getDB();
-        $sql = "INSERT INTO `airlinephp`.`customer` (`id`, `c_id`, `subtotal`, `total`, `shipping`, `items`, `shipped`, 'order_date') 
+        $sql = "INSERT INTO `airlinephp`.`orders` (`id`, `c_id`, `subtotal`, `total`, `shipping`, `items`, `shipped`, 'order_date') 
                 VALUES (NULL, '$c_id', '$subtotal', '$total', '$shipping', '$items', '$shipped', '$order_date')";
         $result = $db->exec($sql);
 

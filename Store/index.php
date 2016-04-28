@@ -4,6 +4,7 @@ session_start();
 require_once './Models/database.php';
 require_once './Models/Products.php';
 
+$message = '';
 $product = new Product();
 //$products[1] = array (
 //    'name' => 'Pillow',
@@ -49,7 +50,7 @@ if(isset($_POST['add_to_cart']))
     //item exists in cart
     if(isset($_SESSION['shopping_cart'][$product_id]))
     {
-        echo "Item already in cart";
+        $message = "Item already in cart";
     }
     else //item is not in cart
     {
@@ -57,7 +58,7 @@ if(isset($_POST['add_to_cart']))
         $_SESSION['shopping_cart'][$product_id]['product_id'] = $_POST['product_id'];
         $_SESSION['shopping_cart'][$product_id]['stock'] = $_POST['stock'];
 
-        echo "Item added to cart!";
+        $message = "Item added to cart!";
     }
 }
 
@@ -99,6 +100,7 @@ if(isset($_POST['update_cart']))
     <h3>Products</h3>
     <main>
         <p><a href="./index.php?view_cart=1">View cart</a></p>
+        <p><?php echo $message; ?></p>
         <!--If user clicks a product for detailed information, page loads with just that product information-->
 <?php if(isset($_GET['view_product'])) : ?>
     <?php
@@ -198,37 +200,82 @@ if(isset($_POST['update_cart']))
 
 <?php elseif(isset($_GET['checkout'])) : ?>
     <h3>Checkout</h3>
-    <?php
-    if(empty($_SESSION['shopping_cart']))
-    {
-    echo "<br>Your cart is empty";
-    }
-    else
-    {
-        echo "<form action='./index.php?checkout=1' method='post'>";
-        echo "<table>";
-        echo "<tr><th>Name</th><th>Item Price</th><th>Stock</th><th>Quantity</th></tr>";
+    <?php if(empty($_SESSION['shopping_cart'])) : ?>
+    <p>Your cart is empty</p>
 
-        $total_price = 0;
-        foreach($_SESSION['shopping_cart'] as $id => $product)
+    <?php else : ?>
+        <?php var_dump($_SESSION); ?>
+        <?php if(isset($_POST['payment']))
         {
-            $product_id = $product['product_id'];
-            $total_price += ($products[$product_id]['price'] * $product['stock']);
-            echo "<tr>
-                <td><a href='./index.php?view_product=$id' >" . $products[$product_id]['name'] . "</a></td>
-                <td>" . $products[$product_id]['price'] . "</td>
-                <td>" . $products[$product_id]['category'] . "</td>
-                <td>$" . ($products[$product_id]['price'] * $product['stock'])  . "</td>
-                <td><a href='#'>Remove</a></td>
+            var_dump($_POST);
+        }
+
+        ?>
+        <table>
+        <tr><th>Name</th><th>Item Price</th><th>Stock</th><th>Quantity</th></tr>
+        <?php
+        $subtotal = 0;
+        $purchase_items = [];
+        foreach($_SESSION['shopping_cart'] as $id => $p)
+        {
+            $product_id = $p['product_id'];
+            $qty = $p['stock'];
+
+            //get a product from the database by id
+            $cart_product = $product->getProduct($product_id);
+            $subtotal += ($cart_product['price'] * $qty);
+            $purchase_items[$cart_product['name']] = $qty;
+            echo "<tr><td><a href='.index.php?view_product=$product_id'>". $cart_product['name'] . "</a></td>
+            <td>" . $cart_product['price'] . "</td>
+            <td>" . $cart_product['stock'] . "</td>
+            <td>" . $qty . "</td>
             </tr>";
 
-            //echo $products[$product_id]['name'] . " | Quantitiy: " . $product['stock'] . "<br>";
         }
-            echo "</table>";
-        echo "</form>";
-        echo "<p>Total price = $" . $total_price . "</p>";
-    }
-    ?>
+        $total = $subtotal * 1.15;
+        $purchase_items = implode($purchase_items);
+        ?>
+        </table>
+        <p>Subtotal = $ <?php echo $subtotal; ?></p>
+        <p>Total ( + taxes) = $ <?php echo $total; ?></p>
+
+        <h3>Payment Info</h3>
+        <form action="./index.php?checkout=1" method="post">
+        <table>
+            <tr>
+                <td>Name: </td><td><input type="text" name="name"/></td>
+            </tr>
+            <tr>
+                <td>Surname: </td><td><input type="text" name="surname"/></td>
+            </tr>
+            <tr>
+                <td>Address: </td><td><input type="text" name="address"/></td>
+            </tr>
+            <tr>
+                <td>City: </td><td><input type="text" name="city"/></td>
+            </tr>
+            <tr>
+                <td>Province: </td><td><input type="text" name="province"/></td>
+            </tr>
+            <tr>
+                <td>Postal Code: </td><td><input type="text" name="postal_code"/></td>
+            </tr>
+            <tr>
+                <td>Email: </td><td><input type="text" name="email"/></td>
+            </tr>
+            <tr>
+                <td>Credit card: </td><td><input type="text" name="credit_card"/></td>
+            </tr>
+            <tr>
+                <td>Shipping method: </td><td><select name="shipping"><option value="address">To address</option><option value="store">In store pick up</option></select></td>
+            </tr>
+        </table>
+            <input type="hidden" name="subtotal" value="<?php echo $subtotal; ?>"/>
+            <input type="hidden" name="total" value="<?php echo $total; ?>"/>
+            <input type="hidden" name="items" value="<?php echo $purchase_items; ?>"/>
+            <p><input type="submit" name="payment" value="Pay"/></p>
+        </form>
+    <?php endif; ?>
 <?php else : ?>
 <?php
     //Storefront PRINT ALL PRODUCTS
