@@ -1,0 +1,179 @@
+html
+{
+    box-sizing:border-box;
+    font-size:16px;
+    font-family: 'Roboto', sans-serif;
+}
+*, *:before, *:after
+{
+    box-sizing:inherit;
+}
+body
+{
+    max-width:100%;
+    margin:0 auto;
+}
+.wrapper
+{
+max-width:1024px;
+margin:0 auto;
+}
+/*RESPONSIVE FRAMEWORK*/
+
+.row
+{
+width:100%;
+display:flex;
+}
+
+.col-8
+{
+width:66.66%;
+}
+
+.col-4
+{
+width:33.33%;
+}
+.col-3
+{
+width:25%;
+}
+
+.col-1-of-5
+{
+    width:20%;
+}
+/*HEADER STYLES*/
+#logo {
+    height:6rem;
+    width:auto;
+    margin-left:1rem;
+}
+.icons
+{
+    height:70px;
+    width:70px;
+}
+.red
+{
+    color:#d70c39;
+}
+.fa-sign-out:hover
+{
+    cursor:default;
+}
+#top-head
+{
+    margin-top:1rem;
+}
+#navbar
+{
+    background-color:#1f365f;
+    margin-top:1rem;
+}
+#main-nav .col-1-of-5:first-child {
+    border-left:2px solid #d2d6df;
+}
+#main-nav .col-1-of-5 {
+    text-align:center;
+    color:#fff;
+    padding:0.9rem;
+    border-right:2px solid #d2d6df;
+}
+#main-nav .col-1-of-5:hover
+{
+    cursor:pointer;
+    background-color:#d2d6df;
+    color:#1f365f;
+}
+#loginOpt .col-4 a, #loginOpt .col-8 span
+{
+    float:right;
+}
+#loginOpt .col-4 a
+{
+    padding-top:0.25rem;
+    text-decoration:none;
+}
+#loginBox {
+    margin-top:1rem;
+}
+#loginOpt
+{
+    margin-bottom:0.5rem;
+}
+main
+{
+    background-color:#f0f0f0;
+    padding-bottom:3rem;
+}
+#gridPanel
+{
+    padding:4rem 0;
+}
+#gridPanel>.wrapper>.row
+{
+    padding:0 3rem;
+}
+.col-3
+{
+    background-color:#1f365f;
+    margin:1px;
+    height:10rem;
+    border:1px solid #d2d6df;
+    color:#fff;
+}
+.col-3 >.row > img
+{
+    margin:1rem auto;
+}
+.col-3 > .row > p
+{
+     margin:1rem auto;
+}
+.col-3:hover
+{
+    cursor:pointer;
+    background-color:#d70c39;
+}
+#footer
+{
+    
+    background-color:#1f365f;
+    padding:1rem;
+    color:#fff;
+}
+@media all and (max-width:980px)
+{
+
+#gridPanel>.row
+{
+width:100%;
+display:block;
+}
+#gridPanel>.wrapper>.row
+{
+width:100%;
+display:block;
+}
+
+#gridPanel>.wrapper>.row>.col-3
+{
+width:100%;
+}
+#logoBox
+{
+    width:33.33%;
+}
+#loginBox{
+    width:66.66%;
+    margin-right:2rem;
+}
+.col-1-of-5
+{
+    width:100%;
+}
+
+
+}
