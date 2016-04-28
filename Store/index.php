@@ -3,30 +3,11 @@ session_start();
 
 require_once './Models/database.php';
 require_once './Models/Products.php';
+require_once './Models/Customers.php';
+require_once './Models/Orders.php';
 
 $message = '';
 $product = new Product();
-//$products[1] = array (
-//    'name' => 'Pillow',
-//    'price' => 10.00,
-//    'category' => 'comfort',
-//    'description' => 'A nice travel pillow for your long travels'
-//    );
-//
-//$products[2] = array (
-//    'name' => 'Blanket',
-//    'price' => 15.00,
-//    'category' => 'comfort',
-//    'description' => 'A nice travel blanket for your long travels'
-//    );
-//
-//$products[3] = array (
-//    'name' => 'Slippers',
-//    'price' => 5.00,
-//    'category' => 'footware',
-//    'description' => 'A pair of slippers'
-//    );
-
 
 //set up cart
 if(!isset($_SESSION['shopping_cart']))
@@ -204,10 +185,54 @@ if(isset($_POST['update_cart']))
     <p>Your cart is empty</p>
 
     <?php else : ?>
-        <?php var_dump($_SESSION); ?>
+
+        <?php $message = "";?>
         <?php if(isset($_POST['payment']))
         {
-            var_dump($_POST);
+            //var_dump($_POST);
+            $missing = [];
+            $required = ['name', 'surname', 'address', 'city', 'province', 'postal_code', 'email', 'credit_card', 'shipping'];
+            foreach($_POST as $key => $value)
+            {
+                $value = is_array($value) ? $value : trim($value);
+                if(strlen($value) == 0  && in_array($key, $required))
+                {
+                    $missing[] = $key;
+                    $$key = '';
+                }
+                else
+                {
+                    $$key = $value;
+                }
+            }
+
+            if(!empty($missing))
+            {
+                $message .= "<span style='color: red;'>All fields required</span>";
+            }
+            elseif(!is_numeric($credit_card))
+            {
+                $message .= "<span style='color: red;'>Credit card must be a number</span><br>";
+            }
+            else
+            {
+                //Make a new customer. Check for a duplicate email in a future version
+                $customer = new Customer();
+                $new_customer = $customer->addCustomer($name, $surname, $address, $city, $province, $postal_code, $email, $credit_card);
+                $new_customer_id = $customer->getCustomerId($email);
+                $order = new Order();
+                $shipped = FALSE;
+                $order_date = date('m/d/Y h:i:s a', time());
+                $new_order = $order->addOrder($new_customer_id['id'], $subtotal, $total, $shipping, $items, $shipped, $order_date);
+                $_SESSION['new_c_id'] = $new_customer_id['id'];
+                $_SESSION['subtotal'] = $subtotal;
+                $_SESSION['total'] = $total;
+                $_SESSION['shipping'] = $shipping;
+                $_SESSION['items'] = $items;
+                $_SESSION['order_date'] = $order_date;
+                //header('location: thankyou.php?ty=1');
+            }
+
         }
 
         ?>
@@ -233,7 +258,12 @@ if(isset($_POST['update_cart']))
 
         }
         $total = $subtotal * 1.15;
-        $purchase_items = implode($purchase_items);
+        $cart_items = "";
+        foreach($purchase_items as $item => $qty)
+        {
+            $cart_items .= $item . "x" . $qty . " ";
+        }
+
         ?>
         </table>
         <p>Subtotal = $ <?php echo $subtotal; ?></p>
@@ -272,8 +302,8 @@ if(isset($_POST['update_cart']))
         </table>
             <input type="hidden" name="subtotal" value="<?php echo $subtotal; ?>"/>
             <input type="hidden" name="total" value="<?php echo $total; ?>"/>
-            <input type="hidden" name="items" value="<?php echo $purchase_items; ?>"/>
-            <p><input type="submit" name="payment" value="Pay"/></p>
+            <input type="hidden" name="items" value="<?php echo $cart_items; ?>"/>
+            <p><input type="submit" name="payment" value="Pay"/></p><?php echo $message; ?>
         </form>
     <?php endif; ?>
 <?php else : ?>

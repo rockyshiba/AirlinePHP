@@ -3,10 +3,10 @@
 class Customer
 {
     //POST
-    public function addCustomer($id, $name, $surname, $address, $city, $province, $postal_code, $email, $credit_card)
+    public function addCustomer($name, $surname, $address, $city, $province, $postal_code, $email, $credit_card)
     {
         $db = Database::getDB();
-        $sql = "INSERT INTO `airlinephp`.`customers` (`id`, `name`, `surname`, `address`, `city`, `province`, `postal_code`, 'email', 'credit_card') 
+        $sql = "INSERT INTO customers (id, name, surname, address, city, province, postal_code, email, credit_card) 
                 VALUES (NULL, '$name', '$surname', '$address', '$city', '$province', '$postal_code', '$email', '$credit_card')";
         $result = $db->exec($sql);
 
@@ -26,11 +26,23 @@ class Customer
     }
 
     //GET
-    public function getCustomer($x)
+    public function getCustomer($id)
     {
         //returns one customer from id
         $db = Database::getDB();
-        $sql = "SELECT * FROM customers WHERE id = '$x'";
+        $sql = "SELECT * FROM customers WHERE id = '$id'";
+        $result = $db->query($sql);
+
+        $customer_single = $result->fetch();
+        return $customer_single;
+    }
+
+    //GET
+    public function getCustomerId($email)
+    {
+        //returns a customer by email
+        $db = Database::getDB();
+        $sql = "SELECT * FROM customers WHERE email = '$email'";
         $result = $db->query($sql);
 
         $customer_single = $result->fetch();
