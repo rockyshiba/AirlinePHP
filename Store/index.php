@@ -220,9 +220,10 @@ if(isset($_POST['update_cart']))
                 $customer = new Customer();
                 $new_customer = $customer->addCustomer($name, $surname, $address, $city, $province, $postal_code, $email, $credit_card);
                 $new_customer_id = $customer->getCustomerId($email);
+                var_dump($new_customer_id);
                 $order = new Order();
                 $shipped = FALSE;
-                $order_date = date('m/d/Y h:i:s a', time());
+                $order_date = null;
                 $new_order = $order->addOrder($new_customer_id['id'], $subtotal, $total, $shipping, $items, $shipped, $order_date);
                 $_SESSION['new_c_id'] = $new_customer_id['id'];
                 $_SESSION['subtotal'] = $subtotal;
