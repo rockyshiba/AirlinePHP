@@ -2,6 +2,17 @@
 
 class Customer
 {
+    //POST
+    public function addCustomer($id, $name, $surname, $address, $city, $province, $postal_code, $email, $credit_card)
+    {
+        $db = Database::getDB();
+        $sql = "INSERT INTO `airlinephp`.`customer` (`id`, `name`, `surname`, `address`, `city`, `province`, `postal_code`, 'email', 'credit_card') 
+                VALUES (NULL, '$name', '$surname', '$address', '$city', '$province', '$postal_code', '$email', '$credit_card')";
+        $result = $db->exec($sql);
+
+        return $result;
+    }
+
     //GET
     public function getCustomers()
     {
@@ -40,6 +51,7 @@ class Customer
         return $row_count;
     }
     
+    //POST
     public function deleteCustomer($id)
     {
         $db = Database::getDB();
