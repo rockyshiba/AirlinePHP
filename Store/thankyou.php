@@ -2,12 +2,10 @@
 
     <?php
         session_start();
-        var_dump($_SESSION);
         require_once './Models/database.php';
         require_once './Models/Customers.php';
         $customer = new Customer();
         $sing_customer = $customer->getCustomer($_SESSION['new_c_id']);
-        var_dump($sing_customer);
     ?>
 <!DOCTYPE html>
 <html>
@@ -30,10 +28,12 @@
         <p><?php echo "<b>Amount charged on credit card: </b>" . $_SESSION['total']; ?></p>
         <p><?php echo "<b>Shipping method: </b>" . $_SESSION['shipping']; ?></p>
         <p><b>Customer address:<b/></p>
+        <div style="color: blue;">
         <p><?php echo $sing_customer['address']; ?></p>
         <p><?php echo $sing_customer['city']; ?></p>
         <p><?php echo $sing_customer['province']; ?></p>
         <p><?php echo $sing_customer['postal_code']; ?></p>
+        </div>
         <p><?php echo "<b>Order placed:<b/> " . $_SESSION['order_date']; ?></p>
     </main>
     <footer></footer>

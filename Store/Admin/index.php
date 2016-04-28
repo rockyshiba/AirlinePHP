@@ -37,11 +37,10 @@ $orders = $order->getOrders();
             text-align: center;
         }
     </style>
+    <link rel="stylesheet" type="text/css" href="../admin.css" />
 </head>
 <body>
-    <header>
-
-    </header>
+    <?php include 'D:\wamp\www\AirlinePHP\Styling\adminHeader.php';?>
     <main style="max-width: 980px; margin: 0 auto;">
         <div id="nav">
             <h3><a href="./index.php?view_products=1">View products</a></h3>
@@ -153,8 +152,6 @@ $orders = $order->getOrders();
             </table>
         <?php endif; ?>
     </main>
-    <footer>
-
-    </footer>
+    <?php include 'D:\wamp\www\AirlinePHP\Styling\adminFooter.php'; ?>
 </body>
 </html>

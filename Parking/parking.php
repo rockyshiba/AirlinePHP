@@ -91,9 +91,11 @@ if(isset($_POST['submit']))
 <html>
     <head>
         <title>Parking</title>
-        <link rel="stylesheet" href="parking_style.css"/>
+        <link rel="stylesheet" href="index.css"/>
+        <meta charset="utf-8">
     </head>
     <body>
+    <?php include 'D:\wamp\www\AirlinePHP\Styling\header.php'; ?>
     <main id="main">
         <div class="page-wrapper">
             <form action='' method="post">

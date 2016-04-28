@@ -11,15 +11,19 @@ $customers = $statement->fetchAll();
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="../parking_style.css"/>
+        <link rel="stylesheet" type="text/css" href="admin.css"/>
+        <meta charset="utf-8">
+        <style>
+            main {
+                max-width: 980px;
+                margin: 0 auto;
+            }
+        </style>
     </head>
 <body>
-<header>
-    <div class="page-wrapper">
-        <h1>Parking Customers</h1>
-    </div>
-</header>
+<?php include 'D:\wamp\www\AirlinePHP\Styling\adminHeader.php' ?>
 <main>
+    <h2>Parking Customers</h2>
     <div class="page-wrapper">
         <table class="parking_table">
                 <tr class="parking_table">
@@ -66,5 +70,6 @@ $customers = $statement->fetchAll();
         </div>
     </div>
 </main>
+<?php include 'D:\wamp\www\AirlinePHP\Styling\adminFooter.php' ?>
 </body>
 </html>

@@ -75,11 +75,14 @@ if(isset($_POST['update_cart']))
             padding: 3px;
         }
     </style>
+    <link rel="stylesheet" href="../Styling/css/index.css"
 </head>
 <body>
-    <h1><a href="./index.php">Online Store</a></h1>
-    <h3>Products</h3>
+    <?php include '../Styling/header.php'; ?>
+
     <main>
+        <h1><a href="./index.php">Online Store</a></h1>
+        <h3>Products</h3>
         <p><a href="./index.php?view_cart=1">View cart</a></p>
         <p><?php echo $message; ?></p>
         <!--If user clicks a product for detailed information, page loads with just that product information-->
@@ -220,7 +223,6 @@ if(isset($_POST['update_cart']))
                 $customer = new Customer();
                 $new_customer = $customer->addCustomer($name, $surname, $address, $city, $province, $postal_code, $email, $credit_card);
                 $new_customer_id = $customer->getCustomerId($email);
-                var_dump($new_customer_id);
                 $order = new Order();
                 $shipped = FALSE;
                 $order_date = null;

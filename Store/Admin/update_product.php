@@ -6,6 +6,35 @@
         $prod_id = $_GET['prod_id'];
         $product = new Product();
         $p = $product->getProduct($prod_id);
+
+    if(isset($_POST['submit']))
+    {
+        $missing = [];
+        $required = ['name', 'price', 'stock', 'serial_num', 'description', 'category'];
+        foreach($_POST as $key => $value)
+        {
+            $value = is_array($value) ? $value : trim($value);
+            if(strlen($value) == 0  && in_array($key, $required))
+            {
+                $missing[] = $key;
+                $$key = '';
+            }
+            else
+            {
+                $$key = $value;
+            }
+        }
+
+        if(!empty($missing))
+        {
+            $message = "<span style='color: red;'>All fields required</span>";
+        }
+        else
+        {
+            $add_p = $product->updateProd($id, $name, $price, $stock, $serial_num, $description, $category);
+            var_dump($add_p);
+        }
+    }
     ?>
     
 <!DOCTYPE html>
@@ -25,7 +54,7 @@
         </header>
         <main style="max-width: 980px; margin: 0 auto;">
             <h4><a href="./index.php?view_products=1">Back to Admin home page</a></h4>
-            <form action="" method="post">
+            <form action="./update_product.php?update_prod=1&prod_id=<?php echo $p['id']; ?>" method="post">
             <table>
                 <tr>
                     <th>Now viewing:</th><th><?php echo $p['name']; ?></th>
