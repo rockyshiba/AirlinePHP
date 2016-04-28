@@ -1,9 +1,9 @@
-<?php if(isset($_POST['update_prod'])) : ?>
+<?php if(isset($_GET['update_prod'])) : ?>
     <?php
         require_once "../Models/database.php";
         require_once "../Models/Products.php";
 
-        $prod_id = $_POST['prod_id'];
+        $prod_id = $_GET['prod_id'];
         $product = new Product();
         $p = $product->getProduct($prod_id);
     ?>
@@ -25,7 +25,7 @@
         </header>
         <main style="max-width: 980px; margin: 0 auto;">
             <h4><a href="./index.php?view_products=1">Back to Admin home page</a></h4>
-            <form action="./update_product_process.php" method="post">
+            <form action="" method="post">
             <table>
                 <tr>
                     <th>Now viewing:</th><th><?php echo $p['name']; ?></th>

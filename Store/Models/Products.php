@@ -27,9 +27,14 @@ class Product
     }
 
     //POST
-    public function addProducts()
+    public function addProduct($name, $price, $qty, $ser, $desc, $cate)
     {
-        return true;
+        $db = Database::getDB();
+        $sql = "INSERT INTO `airlinephp`.`products` (`id`, `name`, `price`, `stock`, `serial_num`, `description`, `category`) 
+                VALUES (NULL, '$name', '$price', '$qty', '$ser', '$desc', '$cate')";
+        $result = $db->exec($sql);
+        
+        return $result;
     }
 
     //GET
@@ -42,6 +47,18 @@ class Product
 
         $prods_by_cat = $result->fetchAll();
         return $prods_by_cat;
+    }
+
+    //GET
+    public function getProdBySer($serial_number)
+    {
+        $db = Database::getDB();
+        $sql = "SELECT COUNT(*) FROM products WHERE serial_num = '$serial_number'";
+        $result = $db->prepare($sql);
+        $result->execute();
+        $count = $result->fetchAll();
+
+        return $count;
     }
 
     //POST

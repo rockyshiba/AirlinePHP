@@ -4,12 +4,16 @@ session_start();
 require_once "../Models/database.php";
 require_once "../Models/Products.php";
 require_once "../Models/Customers.php";
+require_once "../Models/Orders.php";
 
 $product = new Product();
 $products = $product->getProducts();
 
 $customer = new Customer();
 $customers = $customer->getCustomers();
+
+$order = new Order();
+$orders = $order->getOrders();
 ?>
 
 <!DOCTYPE html>
@@ -18,6 +22,9 @@ $customers = $customer->getCustomers();
     <meta charset="utf-8">
     <title>Store admin</title>
     <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
         tr, td, th {
             border: 1px solid black;
             padding: 3px;
@@ -49,6 +56,7 @@ $customers = $customer->getCustomers();
         ?>
         <?php if(isset($_GET['view_products'])) : ?>
             <h2>Products</h2>
+            <a href="add_product.php">Add a product</a>
         <table id="products_table" style="border: 1px solid black;">
             <tr>
                 <th>Product id</th>
@@ -69,7 +77,7 @@ $customers = $customer->getCustomers();
                     <td><?php echo $p["description"] ?></td>
                     <td><?php echo $p["category"] ?></td>
                     <td>
-                        <form action="./update_product.php" method="post">
+                        <form action="./update_product.php" method="get">
                             <input type="hidden" name="prod_id" value="<?php echo $p['id']; ?>"/>
                             <input type="submit" name="update_prod" value="Update"/>
                         </form>
@@ -101,11 +109,49 @@ $customers = $customer->getCustomers();
                     <td><?php echo $c['postal_code']; ?></td>
                     <td><?php echo $c['email']; ?></td>
                     <td><?php echo $c['credit_card']; ?></td>
+                    <td>
+                        <form action="update_customer.php" method="get">
+                            <input type="hidden" name="customer_id" value="<?php echo $c['id']; ?>"/>
+                            <input type="submit" name="update_customer" value="Update" />
+                        </form>
+                    </td>
+                    <td>
+                        <form action="delete_customer.php" method="post">
+                            <input type="hidden" name="customer_id" value="<?php echo $c['id']; ?>" />
+                            <input type="submit" name="delete_customer" value="Remove" />
+                        </form>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </table>
+        <?php else : ?>
+            <h2>Orders</h2>
+            <table style="border: 1px solid black;">
+                <tr>
+                    <th>Order id</th><th>Customer id</th><th>Subtotal</th><th>Total</th><th>Shipping</th><th>Items</th><th>Shipping status</th><th>Order date</th>
+                </tr>
+                <?php foreach($orders as $o) : ?>
+                <tr>
+                    <td><?php echo $o['id']; ?></td>
+                    <td><?php echo $o['c_id']; ?></td>
+                    <td><?php echo $o['subtotal']; ?></td>
+                    <td><?php echo $o['total']; ?></td>
+                    <td><?php echo $o['shipping']; ?></td>
+                    <td><?php echo $o['items']; ?></td>
+                    <td><?php echo $o['shipped']; ?></td>
+                    <td><?php echo $o['order_date']; ?></td>
+                    <td>
+                        <form action="update_order.php" method="post">
+
+                        </form>
+                    </td>
+                    <td>
+
+                    </td>
                 </tr>
                 <?php endforeach; ?>
             </table>
         <?php endif; ?>
-
     </main>
     <footer>
 
