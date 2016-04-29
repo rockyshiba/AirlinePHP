@@ -48,7 +48,7 @@ if(isset($_POST['delete']))
                 margin: 0 auto;
             }
             footer {
-                position: absolute;
+                position: relative;
                 bottom: 0;
                 width: 100%;
             }
@@ -57,6 +57,7 @@ if(isset($_POST['delete']))
                 padding: 3px;
             }
         </style>
+        <script type="text/css" src="Styling/js/index.js"></script>
     </head>
     <body>
         <?php include './Styling/adminHeader.php'?>
@@ -86,9 +87,14 @@ if(isset($_POST['delete']))
                 <?php if(isset($_GET['edit'])) : ?>
                     <?php
                         $airport_sing = $airport->getAirport($_GET['id']);
-                        var_dump($airport_sing);
+                        foreach($airport_sing as $key => $value)
+                        {
+                            $$key = $value;
+                        }
+                        $edit_airport = $airport->editAirport($_GET['id'], $Name, $City, $Code);
+
                     ?>
-                    <form action="index.php" method="post">
+                    <form action="./Admin.php" method="get">
                     <table>
                         <tr>
                             <th>Id</th><th>Name</th><th>City</th><th>Code</th>
@@ -106,8 +112,14 @@ if(isset($_POST['delete']))
                 <?php elseif(isset($_GET['delete'])) : ?>
                     <?php
                         $airport_sing = $airport->getAirport($_GET['id']);
+                        foreach($airport_sing as $key => $value)
+                        {
+                            $$key = $value;
+                        }
+
+                        $delete_airport = $airport->deleteAirport($id);
                     ?>
-                    <form action="index.php" method="post">
+                    <form action="admin.php" method="post">
                     <table>
                         <tr>
                             <th>Id</th><th>Name</th><th>City</th><th>Code</th>

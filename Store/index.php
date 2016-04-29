@@ -55,7 +55,6 @@ if(isset($_POST['update_cart']))
 }
 ?>
 
-
 <!DOCTYPE html>
 <html>
 <head>

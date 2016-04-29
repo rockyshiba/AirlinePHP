@@ -22,7 +22,6 @@ if(isset($_POST['submit']))
     else
     {
         $add_airport = $airport->addAirport($name, $city, $code);
-        var_dump($add_airport);
         $message = "<span style='color: green;'>Airport added!</span>";
     }
 }

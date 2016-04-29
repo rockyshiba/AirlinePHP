@@ -5,7 +5,7 @@ class Airport
     public function addAirport($name, $city, $code)
     {
         $db = Database::getDB();
-        $sql = "INSERT INTO airports (name, code, city)
+        $sql = "INSERT INTO airports (Name, City, Code)
                 VALUES ('$name', '$city', '$code')";
         $result = $db->exec($sql);
 
@@ -28,6 +28,17 @@ class Airport
     {
         $db = Database::getDB();
         $sql = "SELECT * FROM airports WHERE id = '$id'";
+        $result = $db->query($sql);
+
+        $airport = $result->fetch();
+        return $airport;
+    }
+
+    //GET
+    public function getAirportByCode($code)
+    {
+        $db = Database::getDB();
+        $sql = "SELECT * FROM airports WHERE Code = '$code'";
         $result = $db->query($sql);
 
         $airport = $result->fetch();
