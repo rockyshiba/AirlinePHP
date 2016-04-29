@@ -1,7 +1,7 @@
 <?php
 require 'database.php';
 
-$query = 'SELECT * FROM parking';
+$query = 'SELECT * FROM parkingold';
 $statement = $db->prepare($query);
 $statement->execute();
 $customers = $statement->fetchAll();

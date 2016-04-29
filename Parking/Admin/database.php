@@ -1,5 +1,5 @@
 <?php
-$dsn = 'mysql:host=localhost;dbname=newdb';
+$dsn = 'mysql:host=localhost;dbname=airlinephp';
 $username = 'root';
 $password = '';
 

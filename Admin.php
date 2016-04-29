@@ -136,6 +136,7 @@ if(isset($_POST['delete']))
                     </form>
                 <?php endif; ?>
             </table>
+            <p><a href="admin.php">Return to admin home</a></p>
         </main>
         <?php include './Styling/adminFooter.php'?>
     </body>

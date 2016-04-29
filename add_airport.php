@@ -62,6 +62,7 @@ if(isset($_POST['submit']))
                 <input type="submit" name="submit" value="Add"/>
                 <p><?php echo $message; ?></p>
             </form>
+            <p><a href="Admin.php">Return to admin home</a></p>
         </main>
         <?php include 'Styling/adminFooter.php';?>
     </body>
