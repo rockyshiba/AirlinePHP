@@ -3,7 +3,7 @@
                 <div class="wrapper">
                     <div class="row">
                         <div id="logoBox" class="col-8">
-                            <img id="logo" alt="PHP Airlines Logo" src="../Styling/images/logo.png"/>
+                            <img id="logo" alt="PHP Airlines Logo" src="logo.png"/>
                         </div>
                         <div id="loginBox" class="col-4">
                             <div id="loginOpt" class="row">
